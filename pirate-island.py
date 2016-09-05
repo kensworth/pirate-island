@@ -34,6 +34,7 @@ class Pirate():
         }
         xorFront = None
         xorBack = None
+        # currently a O(n^2) algorithm, because each pirate needs to calculate the xor of the front and back separately, since they're all autonomous. To optimize, simply use a dynamic programming method to store the front and back xor values.
         for i in range(len(piratesInFront)):
             if xorFront == None:
                 xorFront = redBlueEnumMap[piratesInFront[len(piratesInFront) - 1].color]
