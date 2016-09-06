@@ -34,7 +34,7 @@ class Pirate():
         }
         xorFront = None
         xorBack = None
-        # currently a O(n^2) algorithm, because each pirate needs to calculate the xor of the front and back separately, since they're all autonomous. To optimize, simply use a dynamic programming method to store the front and back xor values.
+        # currently a O(n^2) algorithm, because each pirate needs to calculate the xor of the front and back separately, since they're all autonomous. To optimize, simply use a dynamic programming method to store the front and back xor values. O(n) solution provided below.
         for i in range(len(piratesInFront)):
             if xorFront == None:
                 xorFront = redBlueEnumMap[piratesInFront[len(piratesInFront) - 1].color]
@@ -45,6 +45,20 @@ class Pirate():
                 xorBack = redBlueEnumMap[calledColors[0]]
             else:
                 xorBack ^= redBlueEnumMap[calledColors[i]]
+        if len(piratesInFront) == totalPirates - 1:
+            return redBlueEnumMap.keys()[redBlueEnumMap.values().index(xorFront)]
+        elif len(piratesInFront) == 0:
+            return redBlueEnumMap.keys()[redBlueEnumMap.values().index(xorBack)]
+        else:
+            return redBlueEnumMap.keys()[redBlueEnumMap.values().index(xorFront ^ xorBack)]
+    def surviveInConstantTime(self, totalPirates, calledColors, piratesInFront, xorBack, xorFront):
+        redBlueEnumMap = {
+            'red': False,
+            'blue': True 
+        }
+        if len(calledColors) != totalPirates - 1:
+            xorFront ^= redBlueEnumMap[piratesInFront[len(calledColors) + 1].color]
+        xorBack ^= redBlueEnumMap[calledColors[-1]]
         if len(piratesInFront) == totalPirates - 1:
             return redBlueEnumMap.keys()[redBlueEnumMap.values().index(xorFront)]
         elif len(piratesInFront) == 0:
